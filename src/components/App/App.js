@@ -1,19 +1,18 @@
-import { useState} from 'react'
+import { useState } from 'react';
 import Section from 'components/Section/Section';
 import FeedbackOptions from 'components/FeedbackOptions/FeedbackOptions';
 import Statistics from 'components/Statistics/Statistics';
 import Notification from 'components/Notification/Notification';
 
-
-const App = () => {  
+const App = () => {
   const [countTotal, setCountTotal] = useState(0);
   const [good, setGood] = useState(0);
   const [neutral, setNeutral] = useState(0);
   const [bad, setBad] = useState(0);
   const [positivePercent, setPositivePercent] = useState(0);
-  
+
   const countTotalFeedback = () => {
-    setCountTotal(countTotal+1)
+    setCountTotal(countTotal + 1);
   };
 
   const onLeaveFeedback = event => {
@@ -29,9 +28,10 @@ const App = () => {
       case 'bad':
         setBad(bad + 1);
         break;
-
+      default:
+        return;
     }
-   countTotalFeedback();
+    countTotalFeedback();
     countPositiveFeedbackPercentage();
   };
 
@@ -39,28 +39,27 @@ const App = () => {
     setPositivePercent(good > 0 ? Math.ceil((good / countTotal) * 100) : 0);
   };
 
-    return (
-      <div className="App">
-        <Section title="Pleace leave feedback" />
-        <FeedbackOptions
-          options={['good', 'neutral', 'bad']}
-          onLeaveFeedback={onLeaveFeedback}
+  return (
+    <div className="App">
+      <Section title="Pleace leave feedback" />
+      <FeedbackOptions
+        options={['good', 'neutral', 'bad']}
+        onLeaveFeedback={onLeaveFeedback}
+      />
+
+      {countTotal > 0 ? (
+        <Statistics
+          good={good}
+          neutral={neutral}
+          bad={bad}
+          total={countTotal}
+          positivePercent={positivePercent}
         />
-
-        {countTotal > 0 ? (
-          <Statistics
-            good={good}
-            neutral={neutral}
-            bad={bad}
-            total={countTotal}
-            positivePercent={positivePercent}
-          />
-        ) : (
-          <Notification message="There is no feedback" />
-        )}
-      </div>
-    );
-
-}
+      ) : (
+        <Notification message="There is no feedback" />
+      )}
+    </div>
+  );
+};
 
 export default App;
