@@ -1,8 +1,8 @@
 const Statistics = ({ good, neutral, bad, total, positivePercent }) => {
 
-  if (total > 0) {
+  // if (total > 0) {
     
-  }
+  // }
   return (
     <section>
       <h2>Statistics</h2>
